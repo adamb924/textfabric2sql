@@ -1,0 +1,25 @@
+#ifndef MYSQLDATABASEADAPTER_H
+#define MYSQLDATABASEADAPTER_H
+
+#include "abstractdatabaseadapter.h"
+
+class MySqlDatabaseAdapter : public AbstractDatabaseAdapter
+{
+public:
+    explicit MySqlDatabaseAdapter(const QString &hostname, const QString &databasename, const QString &username, const QString &password);
+    ~MySqlDatabaseAdapter() override;
+
+    QString insertNodeDataQueryString(const QString &table, const QString &column) const override;
+    QString insertEdgeDataQueryString(const QString &table) const override;
+    QString createTableQueryString(const QString &table, const QSet<QString> &columns, const QHash<QString, QString> &columnTypes) const override;
+    QString dropTableQueryString(const QString &table) const override;
+    QString addTableColumnQueryString(const QString &table, const QString &column, const QString &columnType) const override;
+    QString createOTypeTableQueryString() const override;
+
+    QString integerType() const override;
+    QString stringType() const override;
+
+    static QMap<QString, QString> parseConnectionString(const QString& connectionString);
+};
+
+#endif // MYSQLDATABASEADAPTER_H
